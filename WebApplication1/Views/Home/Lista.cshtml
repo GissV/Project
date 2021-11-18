@@ -1,0 +1,79 @@
+﻿@model IEnumerable<WebApplication1.Models.Registro>
+
+@{
+    var title = "LISTAR USUARIO";
+    ViewData["Title"] = title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<div class="row justify-content-center">
+    <h4>@title</h4>
+</div>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<div id="pdfContainer">
+<table class="table" >
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.apellido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.contrasena)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.apellido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.contrasena)
+            </td>
+
+            
+        </tr>
+}   
+
+
+    </tbody>
+</table>
+</div>
+
+<div>
+    <input type="submit" id="btnPdf" value="Convert PDF" style="width:150px;height:27px" />
+</div>
+
+ 
+
+<script type="text/javascript">
+    $("#btnPdf").click(function(){
+        var sHtml = $("#pdfContainer").html();
+        sHtml = sHtml.replace(/</g,"StrTag").replace(/>/, "EndTag");
+        window.open('/Home/GeneratePdf?html='+sHtml,'_blank');
+    });
+</script>
